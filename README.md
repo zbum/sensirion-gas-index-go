@@ -46,6 +46,22 @@ Keep one processor per sensor and do not call it concurrently.
 The reference vector covers 20,000 samples (about 5.5 hours), including
 initialization, drift, VOC events, gating, and recovery.
 
+## Verify against the C reference
+
+With a C compiler installed, the test target compiles Sensirion's official
+3.2.2 floating-point implementation, compares it with the Go implementation
+sample by sample, and then verifies the pure-Go build:
+
+```sh
+make test
+```
+
+The test suite checks a 20,000-sample generated backtest and replays
+Sensirion's published 600-sample `voc.csv` dataset. The C implementation lives
+under `internal/referencec`, so importing this module does not add CGO to
+applications. The individual targets are available as `make test-cgo` and
+`make test-purego`.
+
 ## Attribution
 
 The implementation is derived from Sensirion AG's BSD-3-Clause licensed
